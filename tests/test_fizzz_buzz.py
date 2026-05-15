@@ -7,119 +7,67 @@ class FizzzBuzzTest(unittest.TestCase):
     def setUp(self):
         self.converter = FizzzBuzz()
 
-    def test_given_plain_number_when_converting_then_return_number_itself(self):
-        # Given
-        number = 1
+    def test_given_numbers_when_converting_then_return_expected_result(self):
+        test_cases = (
+            (1, "1"),
+            (6, "Fizz"),
+            (10, "Buzz"),
+            (15, "FizzBuzz"),
+            (13, "Fizz"),
+            (52, "Buzz"),
+            (53, "FizzBuzz"),
+            (14, "Whizz"),
+            (17, "Whizz"),
+            (37, "FizzWhizz"),
+            (572, "BuzzWhizz"),
+            (21, "FizzWhizz"),
+            (70, "BuzzWhizz"),
+            (105, "FizzBuzzWhizz"),
+            (537, "FizzBuzzWhizz"),
+            (101, "101"),
+        )
 
-        # When
-        result = self.converter.convert(number)
+        for number, expected in test_cases:
+            with self.subTest(number=number):
+                # Given
+                # When
+                result = self.converter.convert(number)
 
-        # Then
-        self.assertEqual("1", result)
+                # Then
+                self.assertEqual(expected, result)
 
-    def test_given_multiple_of_three_when_converting_then_return_fizz(self):
-        # Given
-        number = 6
+    def test_given_invalid_numbers_when_converting_then_raise_expected_error(self):
+        test_cases = (
+            (0, ValueError, "number must be greater than 0"),
+            (-1, ValueError, "number must be greater than 0"),
+            ("3", TypeError, "number must be an integer"),
+            (True, TypeError, "number must be an integer"),
+        )
 
-        # When
-        result = self.converter.convert(number)
+        for number, error_type, message in test_cases:
+            with self.subTest(number=number):
+                # Given
+                # When / Then
+                with self.assertRaisesRegex(error_type, message):
+                    self.converter.convert(number)
 
-        # Then
-        self.assertEqual("Fizz", result)
+    def test_given_supported_entry_points_when_converting_then_return_expected_result(self):
+        test_cases = (
+            ("say", 5, "Buzz"),
+            ("__call__", 7, "Whizz"),
+        )
 
-    def test_given_multiple_of_five_when_converting_then_return_buzz(self):
-        # Given
-        number = 10
+        for entry_point, number, expected in test_cases:
+            with self.subTest(entry_point=entry_point, number=number):
+                # Given
+                # When
+                if entry_point == "__call__":
+                    result = self.converter(number)
+                else:
+                    result = getattr(self.converter, entry_point)(number)
 
-        # When
-        result = self.converter.convert(number)
-
-        # Then
-        self.assertEqual("Buzz", result)
-
-    def test_given_multiple_of_three_and_five_when_converting_then_return_fizz_buzz(self):
-        # Given
-        number = 15
-
-        # When
-        result = self.converter.convert(number)
-
-        # Then
-        self.assertEqual("FizzBuzz", result)
-
-    def test_given_number_contains_three_when_converting_then_return_fizz(self):
-        # Given
-        number = 13
-
-        # When
-        result = self.converter.convert(number)
-
-        # Then
-        self.assertEqual("Fizz", result)
-
-    def test_given_number_contains_five_when_converting_then_return_buzz(self):
-        # Given
-        number = 52
-
-        # When
-        result = self.converter.convert(number)
-
-        # Then
-        self.assertEqual("Buzz", result)
-
-    def test_given_number_contains_three_and_five_when_converting_then_return_fizz_buzz(self):
-        # Given
-        number = 53
-
-        # When
-        result = self.converter.convert(number)
-
-        # Then
-        self.assertEqual("FizzBuzz", result)
-
-    def test_given_number_less_than_one_when_converting_then_raise_value_error(self):
-        # Given
-        number = 0
-
-        # When / Then
-        with self.assertRaisesRegex(ValueError, "number must be between 1 and 100"):
-            self.converter.convert(number)
-
-    def test_given_number_greater_than_one_hundred_when_converting_then_raise_value_error(self):
-        # Given
-        number = 101
-
-        # When / Then
-        with self.assertRaisesRegex(ValueError, "number must be between 1 and 100"):
-            self.converter.convert(number)
-
-    def test_given_non_integer_number_when_converting_then_raise_type_error(self):
-        # Given
-        number = "3"
-
-        # When / Then
-        with self.assertRaisesRegex(TypeError, "number must be an integer"):
-            self.converter.convert(number)
-
-    def test_given_valid_number_when_using_say_then_return_expected_result(self):
-        # Given
-        number = 5
-
-        # When
-        result = self.converter.say(number)
-
-        # Then
-        self.assertEqual("Buzz", result)
-
-    def test_given_valid_number_when_calling_instance_then_return_expected_result(self):
-        # Given
-        number = 3
-
-        # When
-        result = self.converter(number)
-
-        # Then
-        self.assertEqual("Fizz", result)
+                # Then
+                self.assertEqual(expected, result)
 
 
 if __name__ == "__main__":
