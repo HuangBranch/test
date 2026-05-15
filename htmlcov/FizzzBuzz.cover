@@ -1,0 +1,40 @@
+    1: RULES = (
+           (3, "3", "Fizz"),
+           (5, "5", "Buzz"),
+           (7, "7", "Whizz"),
+       )
+       
+       
+    1: def convert(number):
+   22:     _validate_number(number)
+       
+   18:     number_text = str(number)
+  108:     matched_words = [
+   26:         word
+   72:         for divisor, digit, word in RULES
+   54:         if _matches_rule(number, number_text, divisor, digit)
+           ]
+       
+   18:     return "".join(matched_words) or number_text
+       
+       
+    1: def _validate_number(number):
+   22:     if isinstance(number, bool) or not isinstance(number, int):
+    2:         raise TypeError("number must be an integer")
+   20:     if number < 1:
+    2:         raise ValueError("number must be greater than 0")
+       
+       
+    1: def _matches_rule(number, number_text, divisor, digit):
+   54:     return number % divisor == 0 or digit in number_text
+       
+       
+    2: class FizzzBuzz:
+    1:     def convert(self, number):
+   20:         return convert(number)
+       
+    1:     def say(self, number):
+    1:         return convert(number)
+       
+    1:     def __call__(self, number):
+    1:         return convert(number)

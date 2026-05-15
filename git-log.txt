@@ -1,6 +1,10 @@
-* 9fcf1ef (HEAD -> Develop) implement FizzzBuzz basic rules
+姓名: 黄晨晖
+
+* 3ccb2c3 (HEAD -> Develop) add Whizz rules and parameterize FizzzBuzz tests
+* a67bc88 (origin/Develop) extend FizzzBuzz rules and add coverage artifacts
+* 9fcf1ef implement FizzzBuzz basic rules
 * c85ddad refactor YearMonth constructor and rewrite tests in GWT
-*   fe61b7c (origin/Develop) Merge branch 'Feature' into Develop
+*   fe61b7c Merge branch 'Feature' into Develop
 |\  
 | * 53e8789 (origin/Feature, Feature) add .py
 * | b7bce86 delete .py

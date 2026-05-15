@@ -16,41 +16,41 @@ class YearMonthTest(unittest.TestCase):
         self.assertEqual(2026, year_month.year)
         self.assertEqual(5, year_month.month)
 
-    def test_given_month_less_than_one_when_creating_year_month_then_raise_value_error(self):
-        # Given
-        year = 2026
-        month = 0
+    def test_given_invalid_month_when_creating_year_month_then_raise_value_error(self):
+        test_cases = (0, 13)
 
-        # When / Then
-        with self.assertRaisesRegex(ValueError, "month must be between 1 and 12"):
-            YearMonth(year, month)
+        for month in test_cases:
+            with self.subTest(month=month):
+                # Given
+                year = 2026
 
-    def test_given_month_greater_than_twelve_when_creating_year_month_then_raise_value_error(self):
-        # Given
-        year = 2026
-        month = 13
-
-        # When / Then
-        with self.assertRaisesRegex(ValueError, "month must be between 1 and 12"):
-            YearMonth(year, month)
+                # When / Then
+                with self.assertRaisesRegex(ValueError, "month must be between 1 and 12"):
+                    YearMonth(year, month)
 
     def test_given_non_integer_year_when_creating_year_month_then_raise_type_error(self):
-        # Given
-        year = "2026"
-        month = 5
+        test_cases = ("2026", True)
 
-        # When / Then
-        with self.assertRaisesRegex(TypeError, "year must be an integer"):
-            YearMonth(year, month)
+        for year in test_cases:
+            with self.subTest(year=year):
+                # Given
+                month = 5
+
+                # When / Then
+                with self.assertRaisesRegex(TypeError, "year must be an integer"):
+                    YearMonth(year, month)
 
     def test_given_non_integer_month_when_creating_year_month_then_raise_type_error(self):
-        # Given
-        year = 2026
-        month = "5"
+        test_cases = ("5", True)
 
-        # When / Then
-        with self.assertRaisesRegex(TypeError, "month must be an integer"):
-            YearMonth(year, month)
+        for month in test_cases:
+            with self.subTest(month=month):
+                # Given
+                year = 2026
+
+                # When / Then
+                with self.assertRaisesRegex(TypeError, "month must be an integer"):
+                    YearMonth(year, month)
 
     def test_given_year_month_when_rendering_repr_then_return_debug_friendly_text(self):
         # Given

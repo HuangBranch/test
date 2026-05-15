@@ -1,0 +1,28 @@
+    2: class YearMonth:
+    1:     MIN_MONTH = 1
+    1:     MAX_MONTH = 12
+       
+    1:     def __init__(self, year, month):
+    8:         normalized_year, normalized_month = self._normalize(year, month)
+    2:         self.year = normalized_year
+    2:         self.month = normalized_month
+       
+    1:     @classmethod
+    1:     def _normalize(cls, year, month):
+    8:         return cls._require_integer(year, "year"), cls._validate_month(month)
+       
+    1:     @staticmethod
+    1:     def _require_integer(value, field_name):
+   14:         if isinstance(value, bool) or not isinstance(value, int):
+    4:             raise TypeError(f"{field_name} must be an integer")
+   10:         return value
+       
+    1:     @classmethod
+    1:     def _validate_month(cls, month):
+    6:         normalized_month = cls._require_integer(month, "month")
+    4:         if normalized_month < cls.MIN_MONTH or normalized_month > cls.MAX_MONTH:
+    2:             raise ValueError("month must be between 1 and 12")
+    2:         return normalized_month
+       
+    1:     def __repr__(self):
+    1:         return f"YearMonth(year={self.year}, month={self.month})"
