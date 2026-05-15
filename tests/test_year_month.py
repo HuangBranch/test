@@ -52,6 +52,16 @@ class YearMonthTest(unittest.TestCase):
         with self.assertRaisesRegex(TypeError, "month must be an integer"):
             YearMonth(year, month)
 
+    def test_given_year_month_when_rendering_repr_then_return_debug_friendly_text(self):
+        # Given
+        year_month = YearMonth(2026, 5)
+
+        # When
+        result = repr(year_month)
+
+        # Then
+        self.assertEqual("YearMonth(year=2026, month=5)", result)
+
 
 if __name__ == "__main__":
     unittest.main()

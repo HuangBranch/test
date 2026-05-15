@@ -1,11 +1,31 @@
 def convert(number):
-    if number % 15 == 0:
+    _validate_number(number)
+
+    fizz = _is_fizz(number)
+    buzz = _is_buzz(number)
+
+    if fizz and buzz:
         return "FizzBuzz"
-    if number % 3 == 0:
+    if fizz:
         return "Fizz"
-    if number % 5 == 0:
+    if buzz:
         return "Buzz"
     return str(number)
+
+
+def _validate_number(number):
+    if isinstance(number, bool) or not isinstance(number, int):
+        raise TypeError("number must be an integer")
+    if number < 1 or number > 100:
+        raise ValueError("number must be between 1 and 100")
+
+
+def _is_fizz(number):
+    return number % 3 == 0 or "3" in str(number)
+
+
+def _is_buzz(number):
+    return number % 5 == 0 or "5" in str(number)
 
 
 class FizzzBuzz:
